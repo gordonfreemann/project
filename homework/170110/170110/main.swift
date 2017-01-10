@@ -20,3 +20,7 @@ func testInterest(unitDay : Int)
 }
 
 testInterest(unitDay: 1)
+
+
+let arrayPractice = ArrayPractice()
+arrayPractice.printArray(array:arrayPractice.tempArray(lines: 5))
