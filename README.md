@@ -137,7 +137,18 @@ ex) var name: Array<String> = ["chulsoo", "younghee", "kuma"]
    // [String]은 Array<String>의 축약표현
 ```
 
+##딕셔너리(DIctionary)
 
+**딕셔너리는 요소들이 순서 없이 키와 값의 쌍으로 구성되는 컬렉션 타입**
+
+딕셔너리 안에는 키가 하나이거나 여러 개일 수 있다. 단, 하나의 딕셔너리 안의 키는 그 안에서 유일해야한다.
+
+```swift
+ex) var numberForName: [String: Int] = [String: Int]()
+    // 키는 String, 값은 Int 타입인 빈 딕셔너리를 생성합니다.
+    var numberForName: [String: Int] = ["chulsoo": 100, "jenny": 300]
+    // 초기값을 주어 생성해줄 수도 있습니다.
+```
 
 
 
