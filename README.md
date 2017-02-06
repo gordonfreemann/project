@@ -24,6 +24,6 @@ _print함수보다 dump함수가 조금 더 자세한 정보를 출력해줌_
 
 _문자열 내에 \(변수 또는 상수)의 형태로 표기_
 ```swift
-'''let name: String = "yagom"'''
+let name: String = "yagom"
 ```
 
