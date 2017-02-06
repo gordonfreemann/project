@@ -137,7 +137,7 @@ ex) var name: Array<String> = ["chulsoo", "younghee", "kuma"]
    // [String]은 Array<String>의 축약표현
 ```
 
-##딕셔너리(DIctionary)
+##딕셔너리(Dictionary)
 
 **딕셔너리는 요소들이 순서 없이 키와 값의 쌍으로 구성되는 컬렉션 타입**
 
