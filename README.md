@@ -190,7 +190,24 @@ ex) var numberForName: [String: Int] = [String: Int]()
 
 #Chapter 6
 
+##흐름제어
 
+###조건문
+
+**if 구문**
+스위프트의 if 구문은 조건의 값이 꼭 Bool 타입이어야 함
+
+**switch 구문**
+
+###반복문
+
+**for-in 구문**
+
+**while 구문**
+
+**repeat-while 구문**
+
+###구문 이름표
 
 
 
