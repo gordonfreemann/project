@@ -579,3 +579,123 @@ ex) struct CoordinatePoint
 
 클래스에는 디이셜라이저를 단 하나만 구현할 수 있다. 디이니셜라이저는 이니셜라이저와 다르게 매개변수를 가지지 않으며, 소괄호도 적어주지 않는다. 또, 자동 호출되기 때문에 별도의 코드로 호출할 수도 없다.
 
+#Chapter12
+
+**나중에 요약**
+
+#Chapter13
+
+##클로저
+
+**클로저가 가질 수 있는 세 가지 모양**
+
+- 이름을 가지면서 어떤 값도 획득하지 않는 전역함수의 형태
+- 이름을 가지면서 다른 함수 내부의 값을 획득할 수 있는 중첩된 함수의 형태
+- 이름이 없고 주변 문맥에 따라 값을 획득할 수 있는 축약 문법으로 작성된 형태
+
+**클로저가 표현될 수 있는 다양한 형태**
+
+- 클로저는 매개변수와 반환 값의 타입을 문맥을 통해 유추할 수 있기 때문에 매개변수와 반환값의 타입을 생략할 수 있다.
+- 클로저에 단 한 줄의 표현만 들어있다면 암시적으로 이를 반환값으로 취급한다.
+- 축약된 전달인자 이름을 사용할 수 있다.
+- 후행 클로저 문법을 사용할 수 있다.
+
+###기본 클로저
+
+sorted(by:) 메서드를 이용해 동일한 기능을 하는 코드가 간결하게 표현되는 모습을 알아보자
+
+**스위프트 라이브러리의 sorted(by:)메서드 정의**
+
+```swift
+public func sorted(by areInIncreasingOrder: (Element, Element) -> Bool) -> [Element]
+```
+
+**정렬에 사용될 이름 배열**
+
+```swift
+let names: [String] = ["Wizplan", "Red", "Blue", "Green", "Yellow"]
+```
+
+sorted(by:) 메서드는 클로저를 전달인자로 받을 수 있다. 반환하는 Bool 값은 첫번째 전달인자 값이 새로 생성되는 배열에서 두번째 전달인자 값보다 먼저 배치되어야 하는지에 대한 결괏값이다. true를 반환하면 첫번째 전달인자가 두번째 전달인자보다 앞에 온다.
+
+우선 기존에 익숙한 방법대로 매개변수로 String 타입 2개를 가지며, Bool 타입을 반환하는 함수를 구현
+
+```swift
+let names: [String] = ["Wizplan", "Red", "Blue", "Green", "Yellow"]
+
+func backwards(first: String, second: String) -> Bool
+{
+    print("\(first) \(second) 비교중")
+    return first > second
+}
+
+let reversed: [String] = names.sorted(by: backwards)
+
+print(reversed) // ["Yellow", "Wizplan", "Red", "Green", "Blue"]
+```
+
+이를 클로저 표현을 사용해서 간결하게 구현
+
+**클로저 표현은 통상 아래 형식을 따름**
+
+```swift
+{ (매개변수들) -> 반환타입 in 실행코드 }
+```
+
+backwards(first:second:) 함수를 클로저 표현으로 대체
+
+```swift
+let reversed: [String] = names.sorted(by: { (first: String, second: String) -> Bool in return first > second } )
+
+print(reversed) // ["Yellow", "Wizplan", "Red", "Green", "Blue"]
+```
+
+###후행 클로저
+ 
+클로저가 조금 길어지거나 가독성이 떨어진다 싶으면 **후행 클로저**기능을 사용하면 좋다.
+
+후행 클로저 표현
+
+```swift
+//sorted(by:) 메서드의 소괄호까지 생략 가능
+
+let reversed: [String] = names.sorted { (first: String, second: String) -> Bool in return first > second }
+
+print(reversed)
+```
+
+###클로저 표현 간소화
+
+####문맥을 통한 타입 유추
+
+매서드의 전달인자로 전달되는 클로저는 메서드에서 요구하는 형태로 전달되어야 한다. 즉, 매개변수의 타입이나 개수, 반환 타입 등이 같아야 전달인자로서 전달 될 수 있다. 다르게 말하면 전달인자로 전달될 클로저는 이미 그 타입을 준수하고 있다고 유추할 수 있음
+
+클로저의 타입 유추
+
+```swift
+// 클로저의 매개변수 타입과 반환 타입을 생략하여 표현가능
+let reversed: [String] = names.sorted { (first, second) in return first > second }
+```
+
+####단축 인자 이름
+
+스위프트에서는 매개변수 이름을 멋스럽고 간결하게 표현할 수 있도록 단축인자 이름을 제공한다. 단축 인자 이름은 첫 번째 전달인자부터 $0, $1, $2, $3... 순서로 $와 숫자의 조합으로 표현한다.
+
+단축 인자 이름 사용
+
+```swift
+//단축 인자 표현을 사용하면 매개변수 및 반환타입과 실행코드를 구분하기 위해 사용한 in 키워드도 불필요해짐
+let reversed: [String] = names.sorted { return $0 > $1 }
+```
+
+####암시적 반환 표현
+
+클로저에서는 return 키워드마저 생략가능
+
+```swift
+let reversed: [String] = names.sorted { $0 > $1 }
+```
+
+####연산자 함수
+
+
