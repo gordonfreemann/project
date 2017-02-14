@@ -696,6 +696,64 @@ let reversed: [String] = names.sorted { return $0 > $1 }
 let reversed: [String] = names.sorted { $0 > $1 }
 ```
 
-####연산자 함수
+###값 획득
+
+클로저는 자신이 정의된 위치의 주변 문맥을 통해 상수나 변수를 **획득**할 수 있다. 획득을 통해 클로저는 주변에 정의된 상수나 변수가 더는 존재하지 않더라도 그 상수나 변수의 값을 자신 내부에서 참조하거나 수정할 수 있다. 
+
+클로저가 비동기 작업에 많이 사용되기 떼문에 클로저를 통해 비동기 콜백의 형태를 작성하는 경우 현재 상태를 미리 획득해두지 않으면 실질적으로 클로저의 기능을 수행하는 순간에는 주변의 상수나 변수가 이미 메모리에 존재하지 않는 경우가 발생한다.
+
+###탈출 클로저
+
+**나중에 정리**
+
+###자동 클로저
+
+함수의 전달인자로 전달되는 표현을 자동을 변환해주는 클로저를 **자동 클로저**라고 한다. **자동 클로저는 전달인자를 갖지 않는다.** 자동클로저는 호출되었을 때 자신이 감싸고 있는 코드의 결괏값을 반환한다. 자동 클로저는 함수로 전달되는 클로저를 (소괄호와 중괄호를 겹쳐써야하는) 어려운 클로저 문법을 사용하지 않고도 클로저로 사용할 수 있도록 문법적 편의를 제공한다.
+
+자동 클로저는 클로저가 호출되기 전까지 클로저 내부의 코드는 동작하지 않는다. 따라서 연산을 지연시킬 수 있다. 
+
+클로저를 이용한 연산 지연
+
+```swift
+//대기중인 손님들입니다.
+var customersInLine: [String] = ["A", "B", "C", "D", "E"]
+print(customersInLine.count) // 5
+
+//클로저를 만들어두면 클로저 내부의 코드를 미리 실행(연산)하지 않고 가지고만 있다.
+let customerProvider: () -> String = { return customersInLine.removeFirst() }
+print(customersInLine.count) // 5
+
+//실제로 실행
+print("Now serving \(customerProvider())!") // Now serving A!
+print(customersInLine.count) // 4
+```
+
+함수의 전달인자로 전달되는 클로저
+
+```swift
+//customersInLine is ["A", "B", "C", "D", "E"]
+func serveCustomer(_ customerProvider: () -> String) {
+    print("Now serving \(customerProvider())!")
+}
+
+serveCustomer( { customersInLine.removeFirst() } ) // Now serving A!
+```
+
+자동 클로저의 사용
+
+```swift
+//customersInLine is ["A", "B", "C", "D", "E"]
+func serveCustomer(_ customerProvider: @autoclosure () -> String) {
+    print("Now serving \(customerProvider())!")
+}
+
+serveCustomer(customersInLine.removeFirst()) // Now serving A!
+```
+
+기존의 serveCustomer(_:) 함수와 동일한 역할을 수행하지만 매개변수에 @autoclosure 속성을 주었기 때문에 자동클로저 기능을 사용한다. 
+
+자동클로저를 사용하면 기존의 사용 방법처럼 클로저를 전달인자로 넘겨주는 것은 불가능하다.
+
+#Chapter 14
 
 
